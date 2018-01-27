@@ -1,0 +1,301 @@
+:~$ nmap 192.168.0.1,2,3,4,6
+	# multiple host scan
+
+************************************************************************************************
+
+:~$ nmap 192.168.0.1/24 
+	# scan 192.168.0.1 to 192.168.0.255
+
+:~$ nmap 192.168.0.0/16 
+	# scan 192.168.0.0 to 192.168.255.255
+
+:~$ nmap 192.168.0.1/0
+	# scan whole internet
+
+*************************************************************************************************
+
+:~$ nmap 192.168.0.1/24 --exclude 192.168.0.107
+	# all port scan without 192.168.0.107
+
+:~$ nmap 192.168.0.1/24 --excludefile port.txt
+	# not scan host , who exist in port.txt
+
+************************************************************************************************
+
+:~$ nmap -iR 5 
+	# random scan the any 5 address from the Internet
+	# use mostly Security Research
+
+:~$ nmap -sL 192.168.0.107 
+:~$ nmap -sL 192.168.0.1/24
+	# Check host is UP or NOT
+
+*************************************************************************************************
+
+## No port  or no ping scan :~
+------------------------------
+
+:~$ nmap -sn 192.168.0.1/24
+	# scan no. of active host and up
+
+:~$ nmap -PS 192.168.0.1/24
+	# TCP SYN scan
+
+:~$ nmap -PS1-100 192.168.0.1/24
+	# TCP SYN scan
+	# paricular port scan
+
+:~$ nmap -PA 192.168.0.107
+	# TCP ACK scan
+
+:~$ nmap -PU 192.168.0.107
+	# UDP SYN scan
+
+:~$ nmap -X 192.168.0.107
+	# (TCP,UDP,ICMP) scan
+	# mostly Administraton close this port
+
+:~$ nmap -PE 192.168.0.107
+	# ICMP ping scan
+
+************************************************************************************************
+
+## Nmap port scanning:~
+-----------------------
+
+:~$ nmap -sS 192.168.0.107 
+	# TCP SYN scan
+	# use root privilage
+
+:~$ nmap -sT 192.168.0.107 
+	# all TCP connect scan
+
+:~$ nmap -p T:80  192.168.0.107
+	# TCP scan
+	# particular port scan
+
+:~$ nmap -sU 192.168.0.107
+	# scan all UDpP port
+	# use bypass firewall
+	# mostly admin close this port
+
+:~$ nmap -p U:53 192.168.0.107
+	# scan partcular UDP port scan
+
+:~$ nmap -sN 192.168.0.107
+	# null scan
+	# bypass firewall scan
+
+:~$ nmap -sF 192.168.0.107
+	# FIN scan
+
+:~$ nmap -sX 192.168.0.107
+	# (TCP, UDP, ICMP) scan
+
+:~$ nmap -sA 192.168.0.107
+	# TCP ACK scan
+
+:~$ nmap -sO 192.168.0.107
+	# IP protocal scan
+
+**********************************************************************************************
+
+## Port scanning specification:~
+--------------------------------
+
+:~$ nmap -sS 192.168.0.107
+
+:~$ nmap -sS -p 1-100 192.168.0.107 --exclude-port 20-50 
+	# particular port scan
+
+**********************************************************************************************
+
+## Service and version detection:~
+--------------------------------
+
+:~$ nmap -sV 192.168.0.107
+
+:~$ nmap -sV 192.168.0.107 --allports 
+:~$ nmap -sV 192.168.0.107 --version-intensity
+:~$ nmap -sV 192.168.0.107 --version-light
+:~$ nmap -sV 192.168.0.107 --version-all
+
+*********************************************************************************************
+
+## Nmap OS Detection:~
+----------------------
+
+:~$ nmap -O 192.168.0.107
+:~$ nmap -A 192.168.0.107
+
+*********************************************************************************************
+
+## scan host name:~
+-------------------
+
+:~$ nmap google.com
+
+*********************************************************************************************
+
+## Increase Verbosity Level:~
+-------------------
+
+:~$ nmap -v google.com
+:~$ nmap -vv google.com
+
+********************************************************************************************
+
+## Scan a subnet:~
+-------------------
+
+:~$ nmap 192.168.0.0/24
+:~$ nmap 192.168.0.*
+
+********************************************************************************************
+
+## Scan Specific ports:~
+------------------------
+
+:~$ nmap -p 80 192.168.0.1
+	# scan single port
+
+:~$ nmap -p 80.443 192.168.0.1
+	# scan sevral ports
+
+:~$ nmap -p 80-1000   192.168.1.1
+       #scan port range
+
+:~$ nmap -p "*" 192.168.1.1
+       # scan all ports
+
+:~$ nmap --top=ports 5 192.168.1.1
+:~$ nmap --top=ports 10 192.168.1.1
+       # scan for top most common ports
+
+:~$ nmap -sO 192.168.1.1
+	# Determono which IP Protocols ( tcp ,udp, icmp etc...) are suported by target host
+
+:~$ nmap -p U:53,79112,T:21,25-80,443,8080 192.168.1.1
+	#Combine scanning of differnt ports
+
+:~$ nmap -F 192.168.1.1
+	# Enable fast mode (scan fast)
+
+:~$ nmap --reason 192.168.1.1
+	# Display the reason a port is in a particular state
+	# Display the reason why nmap thinks that a port is in a particular state
+
+:~$ nmap --open 192.168.1.1
+	#show only open ports (or possible open)
+
+:~$ nmap -sV 192.168.1.1
+	# VERSION DETECTION 
+	# Discover what version of software is running on a remote host
+
+:~$ nmap -sA 192.168.1.1
+	# FIREWALL DETECTION
+	#  find out if a host is protected by any packet filter or firewall
+********************************************************************************************
+
+## Mac adderess spoofing:-
+-------------------------
+
+:~$ nmap --spoof-mac 00:11:22:33:44:55 192.168.1.1
+	#spoof your mac address
+
+:~$ nmap --spoof-mac 0 192.168.1.1
+	#spoof your mac address with a random mac
+
+************************************************************************************************
+
+## Scan  a firewall for security Vulnerabileties:-
+-------------------------------------------------
+
+:~$ nmap -sN 192.168.1.1
+	# Tcp null scan
+	# don't set any bit (tcp flag header is 0)
+
+:~$ nmap -sF 192.168.1.1
+	# TCP Fin scan
+	# set just the TCP FIN
+
+:~$ nmap -sX 192.168.1.1
+	# TCP Xmas scan
+	# set the FIN,PSH and URG flags
+	# lighting the packet up like a christmas tree
+
+*************************************************************************************************
+
+## Stealthy scan:-
+------------------
+
+:~$ nmap -sS 192.168.1.1
+	#TCP syn scan
+	#well known as a half-onen scanning , as it does't open a full tcp connection
+
+:~$ nmap -Pn 192.168.1.1	
+	# Disable host discovery(No Ping)
+	# Don't ping host before scanning
+	# scan host when protected by the firewall
+
+:~$ nmap -n 192.168.1.1
+	# Disable DNS  Resolution
+	# never do reverse DNS Resolution on the active IP address if find
+
+:~$ nmap -A 192.168.1.1
+:~$ nmap -V -A 192.168.1.1
+:~$ nmap -A -iL ip.txt
+	# Turn on Scanning OS and version detection scanning script (IPV4)
+
+:~$ nmap -sA 192.168.1.1
+:~$ nmap -sA google.com
+	# Find out if a host/network is protected by Firewall
+
+****************************************************************************************************
+
+:~$ nmap -6 IPV6-Address-host
+:~$ nmap -v A -6 2607:f0d0:1002:51::4
+	# Scan an IPV6 host/address
+
+***************************************************************************************************
+
+:~$ nmap -sP 192.168.1.0/24
+	# Scan a network and find out which servers and devices are UP and Running
+
+:~$ nmap --packet-trace 192.168.1.1
+:~$ nmap --packet-trace google.com
+	#Show all packets send and received
+
+:~$ nmap --iflist
+	# Show host interface and routes
+
+:~$ nmap -T5 192.168.1.0/24
+	# The fastest way to scan all your devices/computers for open ports ever
+
+:~$ nmap -O 192.168.1.1
+:~$ nmap -O --osscan-guess 192.168.1.1
+:~$ nmap -V -O --osscan-guess 192.168.1.1
+	# Detect remote O.S.
+
+:~$ nmap -sW 192.168.1.1
+	# Find out the most commonly used ICP ports using TCP window scan
+
+:~$ nmap -sM 192.168.1.1
+	# Find out the most commonly used ICP ports using TCP maimon scan
+
+:~$ nmap -f 192.168.1.1
+:~$ nmap -f 15 192.168.1.1
+	# Scan a firewall for packet fragments
+
+:~$ nmap --mtu 32 192.168.1.1
+	# Set your own offset size with the  --mtu option
+
+:~$ nmap -n -D192.168.1.1,192.168.1.2
+	# Clock a scan with docoys
+
+:~$ nmap -p80 192.168.1.1 -oG - | /path/to/nikto.pl -h -
+:~$ nmap -s80,443 192.168.1.1 -oG - | /path/to/nikto.pl -h -
+	# scan for web servers and pipes into Nikto for scanning
+
+:~$ nmap -v -sS -A -T4 192.168.2.5
+	# Speed up nmap
